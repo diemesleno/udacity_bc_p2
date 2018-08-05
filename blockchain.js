@@ -37,14 +37,14 @@ class Blockchain {
     newBlock.hash = SHA256(JSON.stringify(newBlock)).toString()
     console.log(`New hash: ${newBlock.hash}`)
 
-    await this.addBlockToDB(newBlock.height, JSON.stringify(newBlock))
+    await this.database.addBlockToDB(newBlock.height, JSON.stringify(newBlock))
   }
 
   /*
     - Retrieves the current block height in the chain.
   */
   async getBlockHeight() {
-    return await this.getBlockHeightFromDB()
+    return await this.database.getBlockHeightFromDB()
   }
 
   /*
@@ -52,7 +52,7 @@ class Blockchain {
     @param {int} blockHeight 
   */
   async getBlock(blockHeight) {
-    return JSON.parse(await this.getBlockFromDB(blockHeight))
+    return JSON.parse(await this.database.getBlockFromDB(blockHeight))
   }
 
   /*
@@ -82,7 +82,7 @@ class Blockchain {
     let previousHash = ''
     let isValidBlock = false
 
-    const heigh = await this.getBlockHeightFromDB()
+    const heigh = await this.database.getBlockHeightFromDB()
 
     for (let i = 0; i <= heigh; i++) {
       console.log(`Validating the block with heigh = ${i}`)
@@ -109,53 +109,6 @@ class Blockchain {
         }
       })
     }
-  }
-
-  /*
-   - Function to add a block inside the database.
-  */
-  addBlockToDB(key, value) {
-    return new Promise((resolve, reject) => {
-      this.database.db.put(key, value, (error) => {
-        if (error) {
-          reject(error)
-        }
-
-        console.log(`Added block #${key}`)
-        resolve(`Added block #${key}`)
-      })
-    })
-  }
-
-  /*
-   - Function to get a block inside the database by its key (block height).
-  */
-  getBlockFromDB(key) {
-    return new Promise((resolve, reject) => {
-      this.database.db.get(key, (error, value) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(value)
-      })
-    })
-  }
-
-  /*
-   - Function to get the block height from database.
-  */
-  getBlockHeightFromDB() {
-    return new Promise((resolve, reject) => {
-      let height = -1
-
-      this.database.db.createReadStream().on('data', (data) => {
-        height++
-      }).on('error', (error) => {
-        reject(error)
-      }).on('close', () => {
-        resolve(height)
-      })
-    })
   }
 }
 
