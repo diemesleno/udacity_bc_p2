@@ -4,7 +4,7 @@ const Blockchain = require('./blockchain')
 
 let blockchain = new Blockchain();
 
-(function theLoop (i) {
+(function theLoop(i) {
   setTimeout(() => {
     blockchain.addBlock(new Block(`Test data ${i}`)).then(() => {
       if (--i) {
