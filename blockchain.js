@@ -84,7 +84,8 @@ class Blockchain {
 
     const heigh = await this.getBlockHeightFromDB()
 
-    for (let i = 0; i < heigh; i++) {
+    for (let i = 0; i <= heigh; i++) {
+      console.log(`Validating the block with heigh = ${i}`)
       this.getBlock(i).then((block) => {
         isValidBlock = this.validateBlock(block.height)
 
