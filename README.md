@@ -10,13 +10,6 @@ git clone https://github.com/diemesleno/udacity_bc_p2
 cd udacity_bc_p2
 
 npm install
-```
 
-## Testing
-
-To test code:
-Open a command prompt or shell terminal after install node.js and execute:
-
-```
-node simpleChain.js
+node testBlockchain.js
 ```
