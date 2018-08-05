@@ -1,3 +1,6 @@
+/*
+ - Class to cretate the block
+*/
 class Block {
   constructor (data) {
     this.hash = '',
